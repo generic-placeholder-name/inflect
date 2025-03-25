@@ -1,7 +1,10 @@
 import json
-from collections import Counter
 
 class Tokenizer:
+    """
+    Character-level tokenizer. Tokenizes each character and tag into a different integer.
+    """
+
     def __init__(self, data_files=None, pad_token_id=0, start_token_id=1, end_token_id=2):
         self.pad_token_id = pad_token_id
         self.start_token_id = start_token_id
@@ -50,7 +53,7 @@ class Tokenizer:
         self.alphabet.update(all_chars) # Update alphabet
     
     def tokenize(self, sequence):
-        return [self.char_to_id[char] for char in sequence if char in self.char_to_id]
+        return [self.char_to_id["<BOS>"]] + [self.char_to_id[char] for char in sequence if char in self.char_to_id] + [self.char_to_id["<EOS>"]]
     
     def detokenize(self, indices):
         return "".join([self.id_to_char[idx] for idx in indices if idx in self.id_to_char])
